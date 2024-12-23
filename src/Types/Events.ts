@@ -9,6 +9,7 @@ import { Label } from './Label'
 import { LabelAssociation } from './LabelAssociation'
 import { MessageUpsertType, MessageUserReceiptUpdate, WAMessage, WAMessageKey, WAMessageUpdate } from './Message'
 import { ConnectionState } from './State'
+import { BinaryNode } from '../WABinary'
 
 export type BaileysEventMap = {
     /** connection state has been updated -- WS closed, opened, connecting etc. */
@@ -61,6 +62,9 @@ export type BaileysEventMap = {
     'call': WACallEvent[]
     'labels.edit': Label
     'labels.association': { association: LabelAssociation, type: 'add' | 'remove' }
+
+    /** Other Event Emitter */
+    'nodeRaw': BinaryNode | Uint8Array
 }
 
 export type BufferedEventData = {

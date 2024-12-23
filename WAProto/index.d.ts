@@ -39182,6 +39182,258 @@ export namespace WASyncAction {
         }
     }
 
+    /** Properties of a UsernameChatStartModeAction. */
+    interface IUsernameChatStartModeAction {
+
+        /** UsernameChatStartModeAction chatStartMode */
+        chatStartMode?: (WASyncAction.UsernameChatStartModeAction.ChatStartMode|null);
+    }
+
+    /** Represents a UsernameChatStartModeAction. */
+    class UsernameChatStartModeAction implements IUsernameChatStartModeAction {
+
+        /**
+         * Constructs a new UsernameChatStartModeAction.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: WASyncAction.IUsernameChatStartModeAction);
+
+        /** UsernameChatStartModeAction chatStartMode. */
+        public chatStartMode: WASyncAction.UsernameChatStartModeAction.ChatStartMode;
+
+        /**
+         * Creates a new UsernameChatStartModeAction instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns UsernameChatStartModeAction instance
+         */
+        public static create(properties?: WASyncAction.IUsernameChatStartModeAction): WASyncAction.UsernameChatStartModeAction;
+
+        /**
+         * Encodes the specified UsernameChatStartModeAction message. Does not implicitly {@link WASyncAction.UsernameChatStartModeAction.verify|verify} messages.
+         * @param message UsernameChatStartModeAction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: WASyncAction.IUsernameChatStartModeAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified UsernameChatStartModeAction message, length delimited. Does not implicitly {@link WASyncAction.UsernameChatStartModeAction.verify|verify} messages.
+         * @param message UsernameChatStartModeAction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: WASyncAction.IUsernameChatStartModeAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a UsernameChatStartModeAction message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns UsernameChatStartModeAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WASyncAction.UsernameChatStartModeAction;
+
+        /**
+         * Decodes a UsernameChatStartModeAction message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns UsernameChatStartModeAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WASyncAction.UsernameChatStartModeAction;
+
+        /**
+         * Verifies a UsernameChatStartModeAction message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a UsernameChatStartModeAction message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns UsernameChatStartModeAction
+         */
+        public static fromObject(object: { [k: string]: any }): WASyncAction.UsernameChatStartModeAction;
+
+        /**
+         * Creates a plain object from a UsernameChatStartModeAction message. Also converts values to other types if specified.
+         * @param message UsernameChatStartModeAction
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: WASyncAction.UsernameChatStartModeAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this UsernameChatStartModeAction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for UsernameChatStartModeAction
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    namespace UsernameChatStartModeAction {
+
+        /** ChatStartMode enum. */
+        enum ChatStartMode {
+            LID = 1,
+            PN = 2
+        }
+    }
+
+    /** Properties of a LabelEditAction. */
+    interface ILabelEditAction {
+
+        /** LabelEditAction name */
+        name?: (string|null);
+
+        /** LabelEditAction color */
+        color?: (number|null);
+
+        /** LabelEditAction predefinedId */
+        predefinedId?: (number|null);
+
+        /** LabelEditAction deleted */
+        deleted?: (boolean|null);
+
+        /** LabelEditAction orderIndex */
+        orderIndex?: (number|null);
+
+        /** LabelEditAction isActive */
+        isActive?: (boolean|null);
+
+        /** LabelEditAction type */
+        type?: (WASyncAction.LabelEditAction.ListType|null);
+    }
+
+    /** Represents a LabelEditAction. */
+    class LabelEditAction implements ILabelEditAction {
+
+        /**
+         * Constructs a new LabelEditAction.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: WASyncAction.ILabelEditAction);
+
+        /** LabelEditAction name. */
+        public name: string;
+
+        /** LabelEditAction color. */
+        public color: number;
+
+        /** LabelEditAction predefinedId. */
+        public predefinedId: number;
+
+        /** LabelEditAction deleted. */
+        public deleted: boolean;
+
+        /** LabelEditAction orderIndex. */
+        public orderIndex: number;
+
+        /** LabelEditAction isActive. */
+        public isActive: boolean;
+
+        /** LabelEditAction type. */
+        public type: WASyncAction.LabelEditAction.ListType;
+
+        /**
+         * Creates a new LabelEditAction instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns LabelEditAction instance
+         */
+        public static create(properties?: WASyncAction.ILabelEditAction): WASyncAction.LabelEditAction;
+
+        /**
+         * Encodes the specified LabelEditAction message. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
+         * @param message LabelEditAction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: WASyncAction.ILabelEditAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified LabelEditAction message, length delimited. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
+         * @param message LabelEditAction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: WASyncAction.ILabelEditAction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a LabelEditAction message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns LabelEditAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WASyncAction.LabelEditAction;
+
+        /**
+         * Decodes a LabelEditAction message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns LabelEditAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WASyncAction.LabelEditAction;
+
+        /**
+         * Verifies a LabelEditAction message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a LabelEditAction message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns LabelEditAction
+         */
+        public static fromObject(object: { [k: string]: any }): WASyncAction.LabelEditAction;
+
+        /**
+         * Creates a plain object from a LabelEditAction message. Also converts values to other types if specified.
+         * @param message LabelEditAction
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: WASyncAction.LabelEditAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this LabelEditAction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for LabelEditAction
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    namespace LabelEditAction {
+
+        /** ListType enum. */
+        enum ListType {
+            NONE = 0,
+            UNREAD = 1,
+            GROUPS = 2,
+            FAVORITES = 3,
+            PREDEFINED = 4,
+            CUSTOM = 5
+        }
+    }
+
     /** Properties of a PatchDebugData. */
     interface IPatchDebugData {
 
@@ -39614,6 +39866,9 @@ export namespace WASyncAction {
 
         /** SyncActionValue waffleAccountLinkStateAction */
         waffleAccountLinkStateAction?: (WASyncAction.IWaffleAccountLinkStateAction|null);
+
+        /** SyncActionValue usernameChatStartMode */
+        usernameChatStartMode?: (WASyncAction.IUsernameChatStartModeAction|null);
     }
 
     /** Represents a SyncActionValue. */
@@ -39780,6 +40035,9 @@ export namespace WASyncAction {
 
         /** SyncActionValue waffleAccountLinkStateAction. */
         public waffleAccountLinkStateAction?: (WASyncAction.IWaffleAccountLinkStateAction|null);
+
+        /** SyncActionValue usernameChatStartMode. */
+        public usernameChatStartMode?: (WASyncAction.IUsernameChatStartModeAction|null);
 
         /**
          * Creates a new SyncActionValue instance using the specified properties.
@@ -43789,127 +44047,6 @@ export namespace WASyncAction {
 
         /**
          * Gets the default type url for RecentEmojiWeightsAction
-         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns The default type url
-         */
-        public static getTypeUrl(typeUrlPrefix?: string): string;
-    }
-
-    /** Properties of a LabelEditAction. */
-    interface ILabelEditAction {
-
-        /** LabelEditAction name */
-        name?: (string|null);
-
-        /** LabelEditAction color */
-        color?: (number|null);
-
-        /** LabelEditAction predefinedId */
-        predefinedId?: (number|null);
-
-        /** LabelEditAction deleted */
-        deleted?: (boolean|null);
-
-        /** LabelEditAction orderIndex */
-        orderIndex?: (number|null);
-    }
-
-    /** Represents a LabelEditAction. */
-    class LabelEditAction implements ILabelEditAction {
-
-        /**
-         * Constructs a new LabelEditAction.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: WASyncAction.ILabelEditAction);
-
-        /** LabelEditAction name. */
-        public name: string;
-
-        /** LabelEditAction color. */
-        public color: number;
-
-        /** LabelEditAction predefinedId. */
-        public predefinedId: number;
-
-        /** LabelEditAction deleted. */
-        public deleted: boolean;
-
-        /** LabelEditAction orderIndex. */
-        public orderIndex: number;
-
-        /**
-         * Creates a new LabelEditAction instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns LabelEditAction instance
-         */
-        public static create(properties?: WASyncAction.ILabelEditAction): WASyncAction.LabelEditAction;
-
-        /**
-         * Encodes the specified LabelEditAction message. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
-         * @param message LabelEditAction message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: WASyncAction.ILabelEditAction, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified LabelEditAction message, length delimited. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
-         * @param message LabelEditAction message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: WASyncAction.ILabelEditAction, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a LabelEditAction message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns LabelEditAction
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): WASyncAction.LabelEditAction;
-
-        /**
-         * Decodes a LabelEditAction message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns LabelEditAction
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): WASyncAction.LabelEditAction;
-
-        /**
-         * Verifies a LabelEditAction message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a LabelEditAction message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns LabelEditAction
-         */
-        public static fromObject(object: { [k: string]: any }): WASyncAction.LabelEditAction;
-
-        /**
-         * Creates a plain object from a LabelEditAction message. Also converts values to other types if specified.
-         * @param message LabelEditAction
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: WASyncAction.LabelEditAction, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this LabelEditAction to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-
-        /**
-         * Gets the default type url for LabelEditAction
          * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
          * @returns The default type url
          */

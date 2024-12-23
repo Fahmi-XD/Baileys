@@ -13,7 +13,7 @@ type ProcessSenderKeyDistributionMessageOpts = {
 
 type DecryptSignalProtoOpts = {
 	jid: string
-	type: 'pkmsg' | 'msg'
+	type: 'pkmsg' | 'msg' | 'msmsg'
 	ciphertext: Uint8Array
 }
 
@@ -56,7 +56,7 @@ export type SignalRepository = {
 	): Promise<void>
 	decryptMessage(opts: DecryptSignalProtoOpts): Promise<Uint8Array>
 	encryptMessage(opts: EncryptMessageOpts): Promise<{
-		type: 'pkmsg' | 'msg'
+		type: 'pkmsg' | 'msg' | 'msmsg'
 		ciphertext: Uint8Array
 	}>
 	encryptGroupMessage(opts: EncryptGroupMessageOpts): Promise<{

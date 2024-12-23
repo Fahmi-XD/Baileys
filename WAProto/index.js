@@ -108131,6 +108131,645 @@ $root.WASyncAction = (function() {
         return MarketingMessageAction;
     })();
 
+    WASyncAction.UsernameChatStartModeAction = (function() {
+
+        /**
+         * Properties of a UsernameChatStartModeAction.
+         * @memberof WASyncAction
+         * @interface IUsernameChatStartModeAction
+         * @property {WASyncAction.UsernameChatStartModeAction.ChatStartMode|null} [chatStartMode] UsernameChatStartModeAction chatStartMode
+         */
+
+        /**
+         * Constructs a new UsernameChatStartModeAction.
+         * @memberof WASyncAction
+         * @classdesc Represents a UsernameChatStartModeAction.
+         * @implements IUsernameChatStartModeAction
+         * @constructor
+         * @param {WASyncAction.IUsernameChatStartModeAction=} [properties] Properties to set
+         */
+        function UsernameChatStartModeAction(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * UsernameChatStartModeAction chatStartMode.
+         * @member {WASyncAction.UsernameChatStartModeAction.ChatStartMode} chatStartMode
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @instance
+         */
+        UsernameChatStartModeAction.prototype.chatStartMode = 1;
+
+        /**
+         * Creates a new UsernameChatStartModeAction instance using the specified properties.
+         * @function create
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {WASyncAction.IUsernameChatStartModeAction=} [properties] Properties to set
+         * @returns {WASyncAction.UsernameChatStartModeAction} UsernameChatStartModeAction instance
+         */
+        UsernameChatStartModeAction.create = function create(properties) {
+            return new UsernameChatStartModeAction(properties);
+        };
+
+        /**
+         * Encodes the specified UsernameChatStartModeAction message. Does not implicitly {@link WASyncAction.UsernameChatStartModeAction.verify|verify} messages.
+         * @function encode
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {WASyncAction.IUsernameChatStartModeAction} message UsernameChatStartModeAction message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UsernameChatStartModeAction.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.chatStartMode != null && Object.hasOwnProperty.call(message, "chatStartMode"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.chatStartMode);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified UsernameChatStartModeAction message, length delimited. Does not implicitly {@link WASyncAction.UsernameChatStartModeAction.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {WASyncAction.IUsernameChatStartModeAction} message UsernameChatStartModeAction message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        UsernameChatStartModeAction.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a UsernameChatStartModeAction message from the specified reader or buffer.
+         * @function decode
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {WASyncAction.UsernameChatStartModeAction} UsernameChatStartModeAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UsernameChatStartModeAction.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.WASyncAction.UsernameChatStartModeAction();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.chatStartMode = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a UsernameChatStartModeAction message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {WASyncAction.UsernameChatStartModeAction} UsernameChatStartModeAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        UsernameChatStartModeAction.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a UsernameChatStartModeAction message.
+         * @function verify
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        UsernameChatStartModeAction.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.chatStartMode != null && message.hasOwnProperty("chatStartMode"))
+                switch (message.chatStartMode) {
+                default:
+                    return "chatStartMode: enum value expected";
+                case 1:
+                case 2:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a UsernameChatStartModeAction message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {WASyncAction.UsernameChatStartModeAction} UsernameChatStartModeAction
+         */
+        UsernameChatStartModeAction.fromObject = function fromObject(object) {
+            if (object instanceof $root.WASyncAction.UsernameChatStartModeAction)
+                return object;
+            var message = new $root.WASyncAction.UsernameChatStartModeAction();
+            switch (object.chatStartMode) {
+            default:
+                if (typeof object.chatStartMode === "number") {
+                    message.chatStartMode = object.chatStartMode;
+                    break;
+                }
+                break;
+            case "LID":
+            case 1:
+                message.chatStartMode = 1;
+                break;
+            case "PN":
+            case 2:
+                message.chatStartMode = 2;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a UsernameChatStartModeAction message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {WASyncAction.UsernameChatStartModeAction} message UsernameChatStartModeAction
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        UsernameChatStartModeAction.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.chatStartMode = options.enums === String ? "LID" : 1;
+            if (message.chatStartMode != null && message.hasOwnProperty("chatStartMode"))
+                object.chatStartMode = options.enums === String ? $root.WASyncAction.UsernameChatStartModeAction.ChatStartMode[message.chatStartMode] === undefined ? message.chatStartMode : $root.WASyncAction.UsernameChatStartModeAction.ChatStartMode[message.chatStartMode] : message.chatStartMode;
+            return object;
+        };
+
+        /**
+         * Converts this UsernameChatStartModeAction to JSON.
+         * @function toJSON
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        UsernameChatStartModeAction.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for UsernameChatStartModeAction
+         * @function getTypeUrl
+         * @memberof WASyncAction.UsernameChatStartModeAction
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        UsernameChatStartModeAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/WASyncAction.UsernameChatStartModeAction";
+        };
+
+        /**
+         * ChatStartMode enum.
+         * @name WASyncAction.UsernameChatStartModeAction.ChatStartMode
+         * @enum {number}
+         * @property {number} LID=1 LID value
+         * @property {number} PN=2 PN value
+         */
+        UsernameChatStartModeAction.ChatStartMode = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "LID"] = 1;
+            values[valuesById[2] = "PN"] = 2;
+            return values;
+        })();
+
+        return UsernameChatStartModeAction;
+    })();
+
+    WASyncAction.LabelEditAction = (function() {
+
+        /**
+         * Properties of a LabelEditAction.
+         * @memberof WASyncAction
+         * @interface ILabelEditAction
+         * @property {string|null} [name] LabelEditAction name
+         * @property {number|null} [color] LabelEditAction color
+         * @property {number|null} [predefinedId] LabelEditAction predefinedId
+         * @property {boolean|null} [deleted] LabelEditAction deleted
+         * @property {number|null} [orderIndex] LabelEditAction orderIndex
+         * @property {boolean|null} [isActive] LabelEditAction isActive
+         * @property {WASyncAction.LabelEditAction.ListType|null} [type] LabelEditAction type
+         */
+
+        /**
+         * Constructs a new LabelEditAction.
+         * @memberof WASyncAction
+         * @classdesc Represents a LabelEditAction.
+         * @implements ILabelEditAction
+         * @constructor
+         * @param {WASyncAction.ILabelEditAction=} [properties] Properties to set
+         */
+        function LabelEditAction(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * LabelEditAction name.
+         * @member {string} name
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.name = "";
+
+        /**
+         * LabelEditAction color.
+         * @member {number} color
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.color = 0;
+
+        /**
+         * LabelEditAction predefinedId.
+         * @member {number} predefinedId
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.predefinedId = 0;
+
+        /**
+         * LabelEditAction deleted.
+         * @member {boolean} deleted
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.deleted = false;
+
+        /**
+         * LabelEditAction orderIndex.
+         * @member {number} orderIndex
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.orderIndex = 0;
+
+        /**
+         * LabelEditAction isActive.
+         * @member {boolean} isActive
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.isActive = false;
+
+        /**
+         * LabelEditAction type.
+         * @member {WASyncAction.LabelEditAction.ListType} type
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         */
+        LabelEditAction.prototype.type = 0;
+
+        /**
+         * Creates a new LabelEditAction instance using the specified properties.
+         * @function create
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {WASyncAction.ILabelEditAction=} [properties] Properties to set
+         * @returns {WASyncAction.LabelEditAction} LabelEditAction instance
+         */
+        LabelEditAction.create = function create(properties) {
+            return new LabelEditAction(properties);
+        };
+
+        /**
+         * Encodes the specified LabelEditAction message. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
+         * @function encode
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {WASyncAction.ILabelEditAction} message LabelEditAction message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        LabelEditAction.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.color != null && Object.hasOwnProperty.call(message, "color"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.color);
+            if (message.predefinedId != null && Object.hasOwnProperty.call(message, "predefinedId"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.predefinedId);
+            if (message.deleted != null && Object.hasOwnProperty.call(message, "deleted"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.deleted);
+            if (message.orderIndex != null && Object.hasOwnProperty.call(message, "orderIndex"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.orderIndex);
+            if (message.isActive != null && Object.hasOwnProperty.call(message, "isActive"))
+                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.isActive);
+            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.type);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified LabelEditAction message, length delimited. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {WASyncAction.ILabelEditAction} message LabelEditAction message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        LabelEditAction.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a LabelEditAction message from the specified reader or buffer.
+         * @function decode
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {WASyncAction.LabelEditAction} LabelEditAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        LabelEditAction.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.WASyncAction.LabelEditAction();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.color = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.predefinedId = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.deleted = reader.bool();
+                        break;
+                    }
+                case 5: {
+                        message.orderIndex = reader.int32();
+                        break;
+                    }
+                case 6: {
+                        message.isActive = reader.bool();
+                        break;
+                    }
+                case 7: {
+                        message.type = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a LabelEditAction message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {WASyncAction.LabelEditAction} LabelEditAction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        LabelEditAction.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a LabelEditAction message.
+         * @function verify
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        LabelEditAction.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.name != null && message.hasOwnProperty("name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.color != null && message.hasOwnProperty("color"))
+                if (!$util.isInteger(message.color))
+                    return "color: integer expected";
+            if (message.predefinedId != null && message.hasOwnProperty("predefinedId"))
+                if (!$util.isInteger(message.predefinedId))
+                    return "predefinedId: integer expected";
+            if (message.deleted != null && message.hasOwnProperty("deleted"))
+                if (typeof message.deleted !== "boolean")
+                    return "deleted: boolean expected";
+            if (message.orderIndex != null && message.hasOwnProperty("orderIndex"))
+                if (!$util.isInteger(message.orderIndex))
+                    return "orderIndex: integer expected";
+            if (message.isActive != null && message.hasOwnProperty("isActive"))
+                if (typeof message.isActive !== "boolean")
+                    return "isActive: boolean expected";
+            if (message.type != null && message.hasOwnProperty("type"))
+                switch (message.type) {
+                default:
+                    return "type: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a LabelEditAction message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {WASyncAction.LabelEditAction} LabelEditAction
+         */
+        LabelEditAction.fromObject = function fromObject(object) {
+            if (object instanceof $root.WASyncAction.LabelEditAction)
+                return object;
+            var message = new $root.WASyncAction.LabelEditAction();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.color != null)
+                message.color = object.color | 0;
+            if (object.predefinedId != null)
+                message.predefinedId = object.predefinedId | 0;
+            if (object.deleted != null)
+                message.deleted = Boolean(object.deleted);
+            if (object.orderIndex != null)
+                message.orderIndex = object.orderIndex | 0;
+            if (object.isActive != null)
+                message.isActive = Boolean(object.isActive);
+            switch (object.type) {
+            default:
+                if (typeof object.type === "number") {
+                    message.type = object.type;
+                    break;
+                }
+                break;
+            case "NONE":
+            case 0:
+                message.type = 0;
+                break;
+            case "UNREAD":
+            case 1:
+                message.type = 1;
+                break;
+            case "GROUPS":
+            case 2:
+                message.type = 2;
+                break;
+            case "FAVORITES":
+            case 3:
+                message.type = 3;
+                break;
+            case "PREDEFINED":
+            case 4:
+                message.type = 4;
+                break;
+            case "CUSTOM":
+            case 5:
+                message.type = 5;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a LabelEditAction message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {WASyncAction.LabelEditAction} message LabelEditAction
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        LabelEditAction.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.color = 0;
+                object.predefinedId = 0;
+                object.deleted = false;
+                object.orderIndex = 0;
+                object.isActive = false;
+                object.type = options.enums === String ? "NONE" : 0;
+            }
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
+            if (message.color != null && message.hasOwnProperty("color"))
+                object.color = message.color;
+            if (message.predefinedId != null && message.hasOwnProperty("predefinedId"))
+                object.predefinedId = message.predefinedId;
+            if (message.deleted != null && message.hasOwnProperty("deleted"))
+                object.deleted = message.deleted;
+            if (message.orderIndex != null && message.hasOwnProperty("orderIndex"))
+                object.orderIndex = message.orderIndex;
+            if (message.isActive != null && message.hasOwnProperty("isActive"))
+                object.isActive = message.isActive;
+            if (message.type != null && message.hasOwnProperty("type"))
+                object.type = options.enums === String ? $root.WASyncAction.LabelEditAction.ListType[message.type] === undefined ? message.type : $root.WASyncAction.LabelEditAction.ListType[message.type] : message.type;
+            return object;
+        };
+
+        /**
+         * Converts this LabelEditAction to JSON.
+         * @function toJSON
+         * @memberof WASyncAction.LabelEditAction
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        LabelEditAction.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for LabelEditAction
+         * @function getTypeUrl
+         * @memberof WASyncAction.LabelEditAction
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        LabelEditAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/WASyncAction.LabelEditAction";
+        };
+
+        /**
+         * ListType enum.
+         * @name WASyncAction.LabelEditAction.ListType
+         * @enum {number}
+         * @property {number} NONE=0 NONE value
+         * @property {number} UNREAD=1 UNREAD value
+         * @property {number} GROUPS=2 GROUPS value
+         * @property {number} FAVORITES=3 FAVORITES value
+         * @property {number} PREDEFINED=4 PREDEFINED value
+         * @property {number} CUSTOM=5 CUSTOM value
+         */
+        LabelEditAction.ListType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "NONE"] = 0;
+            values[valuesById[1] = "UNREAD"] = 1;
+            values[valuesById[2] = "GROUPS"] = 2;
+            values[valuesById[3] = "FAVORITES"] = 3;
+            values[valuesById[4] = "PREDEFINED"] = 4;
+            values[valuesById[5] = "CUSTOM"] = 5;
+            return values;
+        })();
+
+        return LabelEditAction;
+    })();
+
     WASyncAction.PatchDebugData = (function() {
 
         /**
@@ -108972,6 +109611,7 @@ $root.WASyncAction = (function() {
          * @property {WASyncAction.IFavoritesAction|null} [favoritesAction] SyncActionValue favoritesAction
          * @property {WASyncAction.IMerchantPaymentPartnerAction|null} [merchantPaymentPartnerAction] SyncActionValue merchantPaymentPartnerAction
          * @property {WASyncAction.IWaffleAccountLinkStateAction|null} [waffleAccountLinkStateAction] SyncActionValue waffleAccountLinkStateAction
+         * @property {WASyncAction.IUsernameChatStartModeAction|null} [usernameChatStartMode] SyncActionValue usernameChatStartMode
          */
 
         /**
@@ -109406,6 +110046,14 @@ $root.WASyncAction = (function() {
         SyncActionValue.prototype.waffleAccountLinkStateAction = null;
 
         /**
+         * SyncActionValue usernameChatStartMode.
+         * @member {WASyncAction.IUsernameChatStartModeAction|null|undefined} usernameChatStartMode
+         * @memberof WASyncAction.SyncActionValue
+         * @instance
+         */
+        SyncActionValue.prototype.usernameChatStartMode = null;
+
+        /**
          * Creates a new SyncActionValue instance using the specified properties.
          * @function create
          * @memberof WASyncAction.SyncActionValue
@@ -109533,6 +110181,8 @@ $root.WASyncAction = (function() {
                 $root.WASyncAction.MerchantPaymentPartnerAction.encode(message.merchantPaymentPartnerAction, writer.uint32(/* id 57, wireType 2 =*/458).fork()).ldelim();
             if (message.waffleAccountLinkStateAction != null && Object.hasOwnProperty.call(message, "waffleAccountLinkStateAction"))
                 $root.WASyncAction.WaffleAccountLinkStateAction.encode(message.waffleAccountLinkStateAction, writer.uint32(/* id 58, wireType 2 =*/466).fork()).ldelim();
+            if (message.usernameChatStartMode != null && Object.hasOwnProperty.call(message, "usernameChatStartMode"))
+                $root.WASyncAction.UsernameChatStartModeAction.encode(message.usernameChatStartMode, writer.uint32(/* id 59, wireType 2 =*/474).fork()).ldelim();
             return writer;
         };
 
@@ -109773,6 +110423,10 @@ $root.WASyncAction = (function() {
                     }
                 case 58: {
                         message.waffleAccountLinkStateAction = $root.WASyncAction.WaffleAccountLinkStateAction.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 59: {
+                        message.usernameChatStartMode = $root.WASyncAction.UsernameChatStartModeAction.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -110068,6 +110722,11 @@ $root.WASyncAction = (function() {
                 if (error)
                     return "waffleAccountLinkStateAction." + error;
             }
+            if (message.usernameChatStartMode != null && message.hasOwnProperty("usernameChatStartMode")) {
+                var error = $root.WASyncAction.UsernameChatStartModeAction.verify(message.usernameChatStartMode);
+                if (error)
+                    return "usernameChatStartMode." + error;
+            }
             return null;
         };
 
@@ -110347,6 +111006,11 @@ $root.WASyncAction = (function() {
                     throw TypeError(".WASyncAction.SyncActionValue.waffleAccountLinkStateAction: object expected");
                 message.waffleAccountLinkStateAction = $root.WASyncAction.WaffleAccountLinkStateAction.fromObject(object.waffleAccountLinkStateAction);
             }
+            if (object.usernameChatStartMode != null) {
+                if (typeof object.usernameChatStartMode !== "object")
+                    throw TypeError(".WASyncAction.SyncActionValue.usernameChatStartMode: object expected");
+                message.usernameChatStartMode = $root.WASyncAction.UsernameChatStartModeAction.fromObject(object.usernameChatStartMode);
+            }
             return message;
         };
 
@@ -110420,6 +111084,7 @@ $root.WASyncAction = (function() {
                 object.favoritesAction = null;
                 object.merchantPaymentPartnerAction = null;
                 object.waffleAccountLinkStateAction = null;
+                object.usernameChatStartMode = null;
             }
             if (message.timestamp != null && message.hasOwnProperty("timestamp"))
                 if (typeof message.timestamp === "number")
@@ -110528,6 +111193,8 @@ $root.WASyncAction = (function() {
                 object.merchantPaymentPartnerAction = $root.WASyncAction.MerchantPaymentPartnerAction.toObject(message.merchantPaymentPartnerAction, options);
             if (message.waffleAccountLinkStateAction != null && message.hasOwnProperty("waffleAccountLinkStateAction"))
                 object.waffleAccountLinkStateAction = $root.WASyncAction.WaffleAccountLinkStateAction.toObject(message.waffleAccountLinkStateAction, options);
+            if (message.usernameChatStartMode != null && message.hasOwnProperty("usernameChatStartMode"))
+                object.usernameChatStartMode = $root.WASyncAction.UsernameChatStartModeAction.toObject(message.usernameChatStartMode, options);
             return object;
         };
 
@@ -119351,302 +120018,6 @@ $root.WASyncAction = (function() {
         };
 
         return RecentEmojiWeightsAction;
-    })();
-
-    WASyncAction.LabelEditAction = (function() {
-
-        /**
-         * Properties of a LabelEditAction.
-         * @memberof WASyncAction
-         * @interface ILabelEditAction
-         * @property {string|null} [name] LabelEditAction name
-         * @property {number|null} [color] LabelEditAction color
-         * @property {number|null} [predefinedId] LabelEditAction predefinedId
-         * @property {boolean|null} [deleted] LabelEditAction deleted
-         * @property {number|null} [orderIndex] LabelEditAction orderIndex
-         */
-
-        /**
-         * Constructs a new LabelEditAction.
-         * @memberof WASyncAction
-         * @classdesc Represents a LabelEditAction.
-         * @implements ILabelEditAction
-         * @constructor
-         * @param {WASyncAction.ILabelEditAction=} [properties] Properties to set
-         */
-        function LabelEditAction(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-
-        /**
-         * LabelEditAction name.
-         * @member {string} name
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         */
-        LabelEditAction.prototype.name = "";
-
-        /**
-         * LabelEditAction color.
-         * @member {number} color
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         */
-        LabelEditAction.prototype.color = 0;
-
-        /**
-         * LabelEditAction predefinedId.
-         * @member {number} predefinedId
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         */
-        LabelEditAction.prototype.predefinedId = 0;
-
-        /**
-         * LabelEditAction deleted.
-         * @member {boolean} deleted
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         */
-        LabelEditAction.prototype.deleted = false;
-
-        /**
-         * LabelEditAction orderIndex.
-         * @member {number} orderIndex
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         */
-        LabelEditAction.prototype.orderIndex = 0;
-
-        /**
-         * Creates a new LabelEditAction instance using the specified properties.
-         * @function create
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {WASyncAction.ILabelEditAction=} [properties] Properties to set
-         * @returns {WASyncAction.LabelEditAction} LabelEditAction instance
-         */
-        LabelEditAction.create = function create(properties) {
-            return new LabelEditAction(properties);
-        };
-
-        /**
-         * Encodes the specified LabelEditAction message. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
-         * @function encode
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {WASyncAction.ILabelEditAction} message LabelEditAction message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        LabelEditAction.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-            if (message.color != null && Object.hasOwnProperty.call(message, "color"))
-                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.color);
-            if (message.predefinedId != null && Object.hasOwnProperty.call(message, "predefinedId"))
-                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.predefinedId);
-            if (message.deleted != null && Object.hasOwnProperty.call(message, "deleted"))
-                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.deleted);
-            if (message.orderIndex != null && Object.hasOwnProperty.call(message, "orderIndex"))
-                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.orderIndex);
-            return writer;
-        };
-
-        /**
-         * Encodes the specified LabelEditAction message, length delimited. Does not implicitly {@link WASyncAction.LabelEditAction.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {WASyncAction.ILabelEditAction} message LabelEditAction message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        LabelEditAction.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-
-        /**
-         * Decodes a LabelEditAction message from the specified reader or buffer.
-         * @function decode
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {WASyncAction.LabelEditAction} LabelEditAction
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        LabelEditAction.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.WASyncAction.LabelEditAction();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 1: {
-                        message.name = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.color = reader.int32();
-                        break;
-                    }
-                case 3: {
-                        message.predefinedId = reader.int32();
-                        break;
-                    }
-                case 4: {
-                        message.deleted = reader.bool();
-                        break;
-                    }
-                case 5: {
-                        message.orderIndex = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-
-        /**
-         * Decodes a LabelEditAction message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {WASyncAction.LabelEditAction} LabelEditAction
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        LabelEditAction.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-
-        /**
-         * Verifies a LabelEditAction message.
-         * @function verify
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        LabelEditAction.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.name != null && message.hasOwnProperty("name"))
-                if (!$util.isString(message.name))
-                    return "name: string expected";
-            if (message.color != null && message.hasOwnProperty("color"))
-                if (!$util.isInteger(message.color))
-                    return "color: integer expected";
-            if (message.predefinedId != null && message.hasOwnProperty("predefinedId"))
-                if (!$util.isInteger(message.predefinedId))
-                    return "predefinedId: integer expected";
-            if (message.deleted != null && message.hasOwnProperty("deleted"))
-                if (typeof message.deleted !== "boolean")
-                    return "deleted: boolean expected";
-            if (message.orderIndex != null && message.hasOwnProperty("orderIndex"))
-                if (!$util.isInteger(message.orderIndex))
-                    return "orderIndex: integer expected";
-            return null;
-        };
-
-        /**
-         * Creates a LabelEditAction message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {WASyncAction.LabelEditAction} LabelEditAction
-         */
-        LabelEditAction.fromObject = function fromObject(object) {
-            if (object instanceof $root.WASyncAction.LabelEditAction)
-                return object;
-            var message = new $root.WASyncAction.LabelEditAction();
-            if (object.name != null)
-                message.name = String(object.name);
-            if (object.color != null)
-                message.color = object.color | 0;
-            if (object.predefinedId != null)
-                message.predefinedId = object.predefinedId | 0;
-            if (object.deleted != null)
-                message.deleted = Boolean(object.deleted);
-            if (object.orderIndex != null)
-                message.orderIndex = object.orderIndex | 0;
-            return message;
-        };
-
-        /**
-         * Creates a plain object from a LabelEditAction message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {WASyncAction.LabelEditAction} message LabelEditAction
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        LabelEditAction.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.name = "";
-                object.color = 0;
-                object.predefinedId = 0;
-                object.deleted = false;
-                object.orderIndex = 0;
-            }
-            if (message.name != null && message.hasOwnProperty("name"))
-                object.name = message.name;
-            if (message.color != null && message.hasOwnProperty("color"))
-                object.color = message.color;
-            if (message.predefinedId != null && message.hasOwnProperty("predefinedId"))
-                object.predefinedId = message.predefinedId;
-            if (message.deleted != null && message.hasOwnProperty("deleted"))
-                object.deleted = message.deleted;
-            if (message.orderIndex != null && message.hasOwnProperty("orderIndex"))
-                object.orderIndex = message.orderIndex;
-            return object;
-        };
-
-        /**
-         * Converts this LabelEditAction to JSON.
-         * @function toJSON
-         * @memberof WASyncAction.LabelEditAction
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        LabelEditAction.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        /**
-         * Gets the default type url for LabelEditAction
-         * @function getTypeUrl
-         * @memberof WASyncAction.LabelEditAction
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        LabelEditAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/WASyncAction.LabelEditAction";
-        };
-
-        return LabelEditAction;
     })();
 
     WASyncAction.LabelAssociationAction = (function() {

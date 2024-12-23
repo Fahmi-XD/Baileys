@@ -9,12 +9,14 @@ baileys_store*.json
 browser-messages.json
 browser-token.json
 decoded-ws.json
-docs
-lib
 messages*.json
 node_modules
 output.csv
 Proxy
+docs
 test.ts
 TestData
 wa-logs.txt
+Example/session
+Example/test.ts
+Example/track.txt

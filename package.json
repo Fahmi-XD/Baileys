@@ -40,7 +40,8 @@
     "prepack": "tsc",
     "prepare": "tsc",
     "release": "release-it",
-    "test": "jest"
+    "test": "jest",
+    "demo": "node -r ts-node/register Example/test.ts"
   },
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
@@ -56,6 +57,7 @@
     "node-cache": "^5.1.2",
     "pino": "^7.0.0",
     "protobufjs": "^7.2.4",
+    "protobufjs-cli": "^1.1.3",
     "uuid": "^10.0.0",
     "ws": "^8.13.0"
   },

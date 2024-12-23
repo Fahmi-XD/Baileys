@@ -2,12 +2,13 @@ import { Boom } from '@hapi/boom'
 import { Logger } from 'pino'
 import proto from '../../WAProto'
 import { SignalRepository, WAMessageKey } from '../Types'
-import { areJidsSameUser, BinaryNode, isJidBroadcast, isJidGroup, isJidStatusBroadcast, isJidUser, isLidUser } from '../WABinary'
+import { areJidsSameUser, BinaryNode, isJidBroadcast, isJidGroup, isJidNewsletter, isJidStatusBroadcast, isJidUser, isLidUser } from '../WABinary'
 import { BufferJSON, unpadRandomMax16 } from './generics'
+import logger from './logger'
 
 const NO_MESSAGE_FOUND_ERROR_TEXT = 'Message absent from node'
 
-type MessageType = 'chat' | 'peer_broadcast' | 'other_broadcast' | 'group' | 'direct_peer_status' | 'other_status'
+type MessageType = 'chat' | 'peer_broadcast' | 'other_broadcast' | 'group' | 'direct_peer_status' | 'other_status' | 'newsletter'
 
 /**
  * Decode the received node as a message.
@@ -29,6 +30,7 @@ export function decodeMessageNode(
 
 	const isMe = (jid: string) => areJidsSameUser(jid, meId)
 	const isMeLid = (jid: string) => areJidsSameUser(jid, meLid)
+	// console.log({isJidNewsletter: isJidNewsletter(from)})
 
 	if(isJidUser(from)) {
 		if(recipient) {
@@ -76,6 +78,11 @@ export function decodeMessageNode(
 			msgType = isParticipantMe ? 'peer_broadcast' : 'other_broadcast'
 		}
 
+		chatId = from
+		author = participant
+	} else if(isJidNewsletter(from)) {
+		logger.debug("Ini adalah Pesan Newsletter")
+		msgType = "newsletter"
 		chatId = from
 		author = participant
 	} else {
@@ -126,13 +133,14 @@ export const decryptMessageNode = (
 			let decryptables = 0
 			if(Array.isArray(stanza.content)) {
 				for(const { tag, attrs, content } of stanza.content) {
+					// console.log({tag, attrs, content})
 					if(tag === 'verified_name' && content instanceof Uint8Array) {
 						const cert = proto.WAVnameCert.VerifiedNameCertificate.decode(content)
 						const details = proto.WAVnameCert.VerifiedNameCertificate.Details.decode(cert.details)
 						fullMessage.verifiedBizName = details.verifiedName
 					}
 
-					if(tag !== 'enc') {
+					if(tag !== 'enc' && String(tag) !== 'plaintext') {
 						continue
 					}
 
@@ -164,10 +172,14 @@ export const decryptMessageNode = (
 							})
 							break
 						default:
-							throw new Error(`Unknown e2e type: ${e2eType}`)
+							if (String(tag) !== "plaintext") {
+								throw new Error(`Unknown e2e type: ${e2eType}`)
+							}
+
+							msgBuffer = content
 						}
 
-						let msg: proto.WAE2E.IMessage = proto.WAE2E.Message.decode(unpadRandomMax16(msgBuffer))
+						let msg: proto.WAE2E.IMessage = proto.WAE2E.Message.decode(String(tag) === "plaintext" ? msgBuffer : unpadRandomMax16(msgBuffer))
 						msg = msg.deviceSentMessage?.message || msg
 						if(msg.senderKeyDistributionMessage) {
 						    try {
@@ -190,6 +202,7 @@ export const decryptMessageNode = (
 							{ key: fullMessage.key, err },
 							'failed to decrypt message'
 						)
+						console.log("Failes Njir 😂")
 						fullMessage.messageStubType = proto.WAWeb.WebMessageInfo.StubType.CIPHERTEXT
 						fullMessage.messageStubParameters = [err.message]
 					}

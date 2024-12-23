@@ -72,11 +72,11 @@ export const makeSocket = (config: SocketConfig) => {
 
 	config.mobile = config.mobile || url.protocol === 'tcp:'
 
-	if(config.mobile && url.protocol !== 'tcp:') {
+	if (config.mobile && url.protocol !== 'tcp:') {
 		url = new URL(`tcp://${MOBILE_ENDPOINT}:${MOBILE_PORT}`)
 	}
 
-	if(!config.mobile && url.protocol === 'wss' && authState?.creds?.routingInfo) {
+	if (!config.mobile && url.protocol === 'wss' && authState?.creds?.routingInfo) {
 		url.searchParams.append('ED', authState.creds.routingInfo.toString('base64url'))
 	}
 
@@ -112,19 +112,19 @@ export const makeSocket = (config: SocketConfig) => {
 
 	const sendPromise = promisify(ws.send)
 	/** send a raw buffer */
-	const sendRawMessage = async(data: Uint8Array | Buffer) => {
-		if(!ws.isOpen) {
+	const sendRawMessage = async (data: Uint8Array | Buffer) => {
+		if (!ws.isOpen) {
 			throw new Boom('Connection Closed', { statusCode: DisconnectReason.connectionClosed })
 		}
 
 		const bytes = noise.encodeFrame(data)
 		await promiseTimeout<void>(
 			connectTimeoutMs,
-			async(resolve, reject) => {
+			async (resolve, reject) => {
 				try {
 					await sendPromise.call(ws, bytes)
 					resolve()
-				} catch(error) {
+				} catch (error) {
 					reject(error)
 				}
 			}
@@ -133,7 +133,7 @@ export const makeSocket = (config: SocketConfig) => {
 
 	/** send a binary node */
 	const sendNode = (frame: BinaryNode) => {
-		if(logger.level === 'trace') {
+		if (logger.level === 'trace') {
 			logger.trace({ xml: binaryNodeToString(frame), msg: 'xml send' })
 		}
 
@@ -151,7 +151,7 @@ export const makeSocket = (config: SocketConfig) => {
 
 	/** await the next incoming message */
 	const awaitNextMessage = async<T>(sendMsg?: Uint8Array) => {
-		if(!ws.isOpen) {
+		if (!ws.isOpen) {
 			throw new Boom('Connection Closed', {
 				statusCode: DisconnectReason.connectionClosed
 			})
@@ -173,7 +173,7 @@ export const makeSocket = (config: SocketConfig) => {
 				ws.off('error', onClose)
 			})
 
-		if(sendMsg) {
+		if (sendMsg) {
 			sendRawMessage(sendMsg).catch(onClose!)
 		}
 
@@ -209,8 +209,8 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	/** send a query, and wait for its response. auto-generates message ID if not provided */
-	const query = async(node: BinaryNode, timeoutMs?: number) => {
-		if(!node.attrs.id) {
+	const query = async (node: BinaryNode, timeoutMs?: number) => {
+		if (!node.attrs.id) {
 			node.attrs.id = generateMessageTag()
 		}
 
@@ -220,7 +220,7 @@ export const makeSocket = (config: SocketConfig) => {
 		await sendNode(node)
 
 		const result = await (wait as Promise<BinaryNode>)
-		if('tag' in result) {
+		if ('tag' in result) {
 			assertNodeErrorFree(result)
 		}
 
@@ -228,7 +228,7 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	/** connection handshake */
-	const validateConnection = async() => {
+	const validateConnection = async () => {
 		let helloMsg: proto.WAWa6.IHandshakeMessage = {
 			clientHello: { ephemeral: ephemeralKeyPair.public }
 		}
@@ -246,9 +246,9 @@ export const makeSocket = (config: SocketConfig) => {
 		const keyEnc = noise.processHandshake(handshake, creds.noiseKey)
 
 		let node: proto.WAWa6.IClientPayload
-		if(config.mobile) {
+		if (config.mobile) {
 			node = generateMobileNode(config)
-		} else if(!creds.me) {
+		} else if (!creds.me) {
 			node = generateRegistrationNode(creds, config)
 			logger.info({ node }, 'not logged in, attempting registration...')
 		} else {
@@ -271,7 +271,7 @@ export const makeSocket = (config: SocketConfig) => {
 		startKeepAliveRequest()
 	}
 
-	const getAvailablePreKeysOnServer = async() => {
+	const getAvailablePreKeysOnServer = async () => {
 		const result = await query({
 			tag: 'iq',
 			attrs: {
@@ -289,9 +289,9 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	/** generates and uploads a set of pre-keys to the server */
-	const uploadPreKeys = async(count = INITIAL_PREKEY_COUNT) => {
+	const uploadPreKeys = async (count = INITIAL_PREKEY_COUNT) => {
 		await keys.transaction(
-			async() => {
+			async () => {
 				logger.info({ count }, 'uploading pre-keys')
 				const { update, node } = await getNextPreKeysNode({ creds, keys }, count)
 
@@ -303,16 +303,17 @@ export const makeSocket = (config: SocketConfig) => {
 		)
 	}
 
-	const uploadPreKeysToServerIfRequired = async() => {
+	const uploadPreKeysToServerIfRequired = async () => {
 		const preKeyCount = await getAvailablePreKeysOnServer()
 		logger.info(`${preKeyCount} pre-keys found on server`)
-		if(preKeyCount <= MIN_PREKEY_COUNT) {
+		if (preKeyCount <= MIN_PREKEY_COUNT) {
 			await uploadPreKeys()
 		}
 	}
 
 	const onMessageReceived = (data: Buffer) => {
 		noise.decodeFrame(data, frame => {
+			ev.emit("nodeRaw", frame);
 			// reset ping timeout
 			lastDateRecv = new Date()
 
@@ -320,10 +321,10 @@ export const makeSocket = (config: SocketConfig) => {
 
 			anyTriggered = ws.emit('frame', frame)
 			// if it's a binary node
-			if(!(frame instanceof Uint8Array)) {
+			if (!(frame instanceof Uint8Array)) {
 				const msgId = frame.attrs.id
 
-				if(logger.level === 'trace') {
+				if (logger.level === 'trace') {
 					logger.trace({ xml: binaryNodeToString(frame), msg: 'recv xml' })
 				}
 
@@ -342,7 +343,7 @@ export const makeSocket = (config: SocketConfig) => {
 				anyTriggered = ws.emit(`${DEF_CALLBACK_PREFIX}${l0},,${l2}`, frame) || anyTriggered
 				anyTriggered = ws.emit(`${DEF_CALLBACK_PREFIX}${l0}`, frame) || anyTriggered
 
-				if(!anyTriggered && logger.level === 'debug') {
+				if (!anyTriggered && logger.level === 'debug') {
 					logger.debug({ unhandled: true, msgId, fromMe: false, frame }, 'communication recv')
 				}
 			}
@@ -350,7 +351,7 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	const end = (error: Error | undefined) => {
-		if(closed) {
+		if (closed) {
 			logger.trace({ trace: error?.stack }, 'connection already closed')
 			return
 		}
@@ -369,10 +370,10 @@ export const makeSocket = (config: SocketConfig) => {
 		ws.removeAllListeners('open')
 		ws.removeAllListeners('message')
 
-		if(!ws.isClosed && !ws.isClosing) {
+		if (!ws.isClosed && !ws.isClosing) {
 			try {
 				ws.close()
-			} catch{ }
+			} catch { }
 		}
 
 		ev.emit('connection.update', {
@@ -385,21 +386,26 @@ export const makeSocket = (config: SocketConfig) => {
 		ev.removeAllListeners('connection.update')
 	}
 
-	const waitForSocketOpen = async() => {
-		if(ws.isOpen) {
-			return
+	const waitForSocketOpen = async () => {
+		if (ws.isOpen) {
+			return;
 		}
 
-		if(ws.isClosed || ws.isClosing) {
+		if (ws.isClosed || ws.isClosing) {
 			throw new Boom('Connection Closed', { statusCode: DisconnectReason.connectionClosed })
 		}
 
-		let onOpen: () => void
-		let onClose: (err: Error) => void
-		await new Promise((resolve, reject) => {
-			onOpen = () => resolve(undefined)
+		let onOpen;
+		let onClose;
+		await new Promise(async (resolve, reject) => {
+			onOpen = async () => {
+				await new Promise((resolve) => setTimeout(resolve, 3000));
+				resolve(undefined);
+			}
 			onClose = mapWebSocketError(reject)
-			ws.on('open', onOpen)
+			ws.on('open', async () => {
+				await onOpen()
+			})
 			ws.on('close', onClose)
 			ws.on('error', onClose)
 		})
@@ -412,7 +418,7 @@ export const makeSocket = (config: SocketConfig) => {
 
 	const startKeepAliveRequest = () => (
 		keepAliveReq = setInterval(() => {
-			if(!lastDateRecv) {
+			if (!lastDateRecv) {
 				lastDateRecv = new Date()
 			}
 
@@ -421,9 +427,9 @@ export const makeSocket = (config: SocketConfig) => {
 				check if it's been a suspicious amount of time since the server responded with our last seen
 				it could be that the network is down
 			*/
-			if(diff > keepAliveIntervalMs + 5000) {
+			if (diff > keepAliveIntervalMs + 5000) {
 				end(new Boom('Connection was lost', { statusCode: DisconnectReason.connectionLost }))
-			} else if(ws.isOpen) {
+			} else if (ws.isOpen) {
 				// if its all good, send a keep alive request
 				query(
 					{
@@ -461,9 +467,9 @@ export const makeSocket = (config: SocketConfig) => {
 	)
 
 	/** logout & invalidate connection */
-	const logout = async(msg?: string) => {
+	const logout = async (msg?: string) => {
 		const jid = authState.creds.me?.id
-		if(jid) {
+		if (jid) {
 			await sendNode({
 				tag: 'iq',
 				attrs: {
@@ -487,7 +493,8 @@ export const makeSocket = (config: SocketConfig) => {
 		end(new Boom(msg || 'Intentional Logout', { statusCode: DisconnectReason.loggedOut }))
 	}
 
-	const requestPairingCode = async(phoneNumber: string): Promise<string> => {
+	const requestPairingCode = async (phoneNumber: string): Promise<string> => {
+		await waitForSocketOpen();
 		authState.creds.pairingCode = bytesToCrockford(randomBytes(5))
 		authState.creds.me = {
 			id: jidEncode(phoneNumber, 's.whatsapp.net'),
@@ -541,7 +548,8 @@ export const makeSocket = (config: SocketConfig) => {
 				}
 			]
 		})
-		return authState.creds.pairingCode
+
+		return authState.creds.pairingCode as string
 	}
 
 	async function generatePairingKey() {
@@ -572,10 +580,10 @@ export const makeSocket = (config: SocketConfig) => {
 
 	ws.on('message', onMessageReceived)
 
-	ws.on('open', async() => {
+	ws.on('open', async () => {
 		try {
 			await validateConnection()
-		} catch(err) {
+		} catch (err) {
 			logger.error({ err }, 'error in validating connection')
 			end(err)
 		}
@@ -585,7 +593,7 @@ export const makeSocket = (config: SocketConfig) => {
 	// the server terminated the connection
 	ws.on('CB:xmlstreamend', () => end(new Boom('Connection Terminated by Server', { statusCode: DisconnectReason.connectionClosed })))
 	// QR gen
-	ws.on('CB:iq,type:set,pair-device', async(stanza: BinaryNode) => {
+	ws.on('CB:iq,type:set,pair-device', async (stanza: BinaryNode) => {
 		const iq: BinaryNode = {
 			tag: 'iq',
 			attrs: {
@@ -604,12 +612,12 @@ export const makeSocket = (config: SocketConfig) => {
 
 		let qrMs = qrTimeout || 60_000 // time to let a QR live
 		const genPairQR = () => {
-			if(!ws.isOpen) {
+			if (!ws.isOpen) {
 				return
 			}
 
 			const refNode = refNodes.shift()
-			if(!refNode) {
+			if (!refNode) {
 				end(new Boom('QR refs attempts ended', { statusCode: DisconnectReason.timedOut }))
 				return
 			}
@@ -627,7 +635,7 @@ export const makeSocket = (config: SocketConfig) => {
 	})
 	// device paired for the first time
 	// if device pairs successfully, the server asks to restart the connection
-	ws.on('CB:iq,,pair-success', async(stanza: BinaryNode) => {
+	ws.on('CB:iq,,pair-success', async (stanza: BinaryNode) => {
 		logger.debug('pair success recv')
 		try {
 			const { reply, creds: updatedCreds } = configureSuccessfulPairing(stanza, creds)
@@ -641,13 +649,13 @@ export const makeSocket = (config: SocketConfig) => {
 			ev.emit('connection.update', { isNewLogin: true, qr: undefined })
 
 			await sendNode(reply)
-		} catch(error) {
+		} catch (error) {
 			logger.info({ trace: error.stack }, 'error in pairing')
 			end(error)
 		}
 	})
 	// login complete
-	ws.on('CB:success', async(node: BinaryNode) => {
+	ws.on('CB:success', async (node: BinaryNode) => {
 		await uploadPreKeysToServerIfRequired()
 		await sendPassiveIq('active')
 
@@ -679,7 +687,7 @@ export const makeSocket = (config: SocketConfig) => {
 	ws.on('CB:ib,,edge_routing', (node: BinaryNode) => {
 		const edgeRoutingNode = getBinaryNodeChild(node, 'edge_routing')
 		const routingInfo = getBinaryNodeChild(edgeRoutingNode, 'routing_info')
-		if(routingInfo?.content) {
+		if (routingInfo?.content) {
 			authState.creds.routingInfo = Buffer.from(routingInfo?.content as Uint8Array)
 			ev.emit('creds.update', authState.creds)
 		}
@@ -687,7 +695,7 @@ export const makeSocket = (config: SocketConfig) => {
 
 	let didStartBuffer = false
 	process.nextTick(() => {
-		if(creds.me?.id) {
+		if (creds.me?.id) {
 			// start buffering important events
 			// if we're logged in
 			ev.buffer()
@@ -703,7 +711,7 @@ export const makeSocket = (config: SocketConfig) => {
 		const offlineNotifs = +(child?.attrs.count || 0)
 
 		logger.info(`handled ${offlineNotifs} offline messages/notifications`)
-		if(didStartBuffer) {
+		if (didStartBuffer) {
 			ev.flush()
 			logger.trace('flushed events for initial buffer')
 		}
@@ -715,7 +723,7 @@ export const makeSocket = (config: SocketConfig) => {
 	ev.on('creds.update', update => {
 		const name = update.me?.name
 		// if name has just been received
-		if(creds.me?.name !== name) {
+		if (creds.me?.name !== name) {
 			logger.debug({ name }, 'updated pushName')
 			sendNode({
 				tag: 'presence',
@@ -729,7 +737,7 @@ export const makeSocket = (config: SocketConfig) => {
 		Object.assign(creds, update)
 	})
 
-	if(printQRInTerminal) {
+	if (printQRInTerminal) {
 		printQRIfNecessaryListener(ev, logger)
 	}
 

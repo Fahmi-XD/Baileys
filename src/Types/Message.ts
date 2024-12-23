@@ -22,6 +22,7 @@ export type WAGenericMediaMessage = proto.WAE2E.Message.IVideoMessage | proto.WA
 export import WAMessageStubType = proto.WAWeb.WebMessageInfo.StubType
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export import WAMessageStatus = proto.WAWeb.WebMessageInfo.Status
+import { BinaryNode } from '../WABinary'
 export type WAMediaUpload = Buffer | { url: URL | string } | { stream: Readable }
 /** Set of message types that are supported by the library */
 export type MessageType = keyof proto.WAE2E.Message
@@ -210,6 +211,8 @@ export type MessageRelayOptions = MinimalRelayOptions & {
     useUserDevicesCache?: boolean
     /** jid list of participants for status@broadcast */
     statusJidList?: string[]
+    /** Additional Node option for sending message */
+    additionalNodes?: BinaryNode[]
 }
 
 export type MiscMessageGenerationOptions = MinimalRelayOptions & {

@@ -707,6 +707,9 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			logger,
 		)
 
+		// console.log("Realize")
+		// console.log(msg)
+
 		if(msg.message?.protocolMessage?.type === proto.WAE2E.Message.ProtocolMessage.Type.SHARE_PHONE_NUMBER) {
 			if(node.attrs.sender_pn) {
 				ev.emit('chats.phoneNumberShare', { lid: node.attrs.from, jid: node.attrs.sender_pn })

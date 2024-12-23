@@ -27,16 +27,18 @@ export function makeLibSignalRepository(auth: SignalAuthState): SignalRepository
 			await builder.process(senderName, senderMsg)
 		},
 		async decryptMessage({ jid, type, ciphertext }) {
-			const addr = jidToSignalProtocolAddress(jid)
-			const session = new libsignal.SessionCipher(storage, addr)
+			const addr = jidToSignalProtocolAddress(jid);
+			const session = new libsignal.SessionCipher(storage, addr);
+			// ciphertext[0] = 41;
 			let result: Buffer
 			switch (type) {
-			case 'pkmsg':
-				result = await session.decryptPreKeyWhisperMessage(ciphertext)
-				break
-			case 'msg':
-				result = await session.decryptWhisperMessage(ciphertext)
-				break
+				case 'pkmsg':
+					result = await session.decryptPreKeyWhisperMessage(ciphertext)
+					break
+				case 'msg':
+				case 'msmsg':
+					result = await session.decryptWhisperMessage(ciphertext)
+					break
 			}
 
 			return result
