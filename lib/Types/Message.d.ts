@@ -138,6 +138,13 @@ export type ButtonReplyInfo = {
 export type WASendableProduct = Omit<proto.WAE2E.Message.ProductMessage.IProductSnapshot, 'productImage'> & {
     productImage: WAMediaUpload;
 };
+export type GroupInviteInfo = {
+    inviteCode: string;
+    inviteExpiration: number;
+    text: string;
+    jid: string;
+    subject: string;
+};
 export type AnyRegularMessageContent = (({
     text: string;
     linkPreview?: WAUrlInfo | null;
@@ -156,7 +163,16 @@ export type AnyRegularMessageContent = (({
     buttonReply: ButtonReplyInfo;
     type: 'template' | 'plain';
 } | {
+    groupInvite: GroupInviteInfo;
+} | {
     listReply: Omit<proto.WAE2E.Message.IListResponseMessage, 'contextInfo'>;
+} | {
+    pin: WAMessageKey;
+    type: proto.WAWeb.PinInChat.Type;
+    /**
+     * 24 hours, 7 days, 30 days
+     */
+    time?: 86400 | 604800 | 2592000;
 } | {
     product: WASendableProduct;
     businessOwnerJid?: string;
@@ -219,6 +235,7 @@ export type MessageGenerationOptionsFromContent = MiscMessageGenerationOptions &
 };
 export type WAMediaUploadFunction = (readStream: Readable, opts: {
     fileEncSha256B64: string;
+    newsletter?: boolean;
     mediaType: MediaType;
     timeoutMs?: number;
 }) => Promise<{
@@ -233,11 +250,13 @@ export type MediaGenerationOptions = {
     mediaCache?: CacheStore;
     mediaUploadTimeoutMs?: number;
     options?: AxiosRequestConfig;
+    newsletter?: boolean;
     backgroundColor?: string;
     font?: number;
 };
 export type MessageContentGenerationOptions = MediaGenerationOptions & {
     getUrlInfo?: (text: string) => Promise<WAUrlInfo | undefined>;
+    getProfilePicUrl?: (jid: string, type: 'image' | 'preview') => Promise<string | undefined>;
 };
 export type MessageGenerationOptions = MessageContentGenerationOptions & MessageGenerationOptionsFromContent;
 /**
