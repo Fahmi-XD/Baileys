@@ -248,6 +248,8 @@ export type MiscMessageGenerationOptions = MinimalRelayOptions & {
     font?: number
     /** if it is broadcast */
     broadcast?: boolean
+    /** Additional Nodes */
+    additionalNodes?: BinaryNode[]
 }
 export type MessageGenerationOptionsFromContent = MiscMessageGenerationOptions & {
     userJid: string

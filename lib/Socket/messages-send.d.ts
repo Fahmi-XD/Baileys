@@ -6,7 +6,7 @@ import { BinaryNode } from '../WABinary';
 export declare const makeMessagesSocket: (config: SocketConfig) => {
     getPrivacyTokens: (jids: string[]) => Promise<BinaryNode>;
     assertSessions: (jids: string[], force: boolean) => Promise<boolean>;
-    relayMessage: (jid: string, message: proto.WAE2E.IMessage, { messageId: msgId, participant, additionalNodes, additionalAttributes, useUserDevicesCache, cachedGroupMetadata, statusJidList }: MessageRelayOptions) => Promise<string>;
+    relayMessage: (jid: string, messageContent: proto.WAE2E.IMessage, { messageId: msgId, participant, additionalNodes, additionalAttributes, useUserDevicesCache, cachedGroupMetadata, statusJidList }: MessageRelayOptions) => Promise<string>;
     sendReceipt: (jid: string, participant: string | undefined, messageIds: string[], type: MessageReceiptType) => Promise<void>;
     sendReceipts: (keys: WAMessageKey[], type: MessageReceiptType) => Promise<void>;
     getButtonArgs: (message: proto.WAE2E.IMessage) => BinaryNode['attrs'];

@@ -302,9 +302,21 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 	const relayMessage = async (
 		jid: string,
-		message: proto.WAE2E.IMessage,
+		messageContent: proto.WAE2E.IMessage,
 		{ messageId: msgId, participant, additionalNodes, additionalAttributes, useUserDevicesCache, cachedGroupMetadata, statusJidList }: MessageRelayOptions
 	) => {
+		const gens = await generateWAMessageFromContent(jid, {
+			...messageContent!,
+			...(!isJidGroup(jid) ? {
+				messageContextInfo: {
+					messageSecret: crypto.randomBytes(32),
+					supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
+				}
+			} : {})
+		}, { userJid: jid });
+
+		let message = gens.message!;
+
 		const meId = authState.creds.me!.id
 
 		let shouldIncludeDeviceIdentity = false
@@ -560,6 +572,19 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 				if (additionalNodes && additionalNodes.length > 0) {
 					(stanza.content as BinaryNode[]).push(...additionalNodes)
+				}
+
+				if (!isJidGroup(jid)) {
+					(stanza.content as BinaryNode[]).push({
+						attrs: {
+							biz_bot: '1'
+						},
+						tag: "bot"
+					});
+					(stanza.content as BinaryNode[]).push({
+						attrs: {},
+						tag: "biz"
+					});
 				}
 
 				if (!isNewsletter) {
@@ -819,32 +844,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					additionalAttributes.edit = '1'
 				}
 
-				const aiNodes: BinaryNode[] = [];
-
-				if (!isJidGroup(jid)) {
-					aiNodes.push({
-						attrs: {
-							biz_bot: '1'
-						},
-						tag: "bot"
-					});
-					aiNodes.push({
-						attrs: {},
-						tag: "biz"
-					});
-				}
-
-				const gen = await generateWAMessageFromContent(jid, {
-					...fullMsg.message!,
-					...(!isJidGroup(jid) ? {
-						messageContextInfo: {
-							messageSecret: crypto.randomBytes(32),
-							supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
-						}
-					} : {})
-				}, { userJid: jid });
-
-				await relayMessage(jid, gen.message!, { messageId: fullMsg.key.id!, cachedGroupMetadata: options.cachedGroupMetadata, additionalAttributes, statusJidList: options.statusJidList, additionalNodes: aiNodes })
+				await relayMessage(jid, fullMsg.message!, { messageId: fullMsg.key.id!, cachedGroupMetadata: options.cachedGroupMetadata, additionalAttributes, statusJidList: options.statusJidList, additionalNodes: options.additionalNodes })
 				if (config.emitOwnEvents) {
 					process.nextTick(() => {
 						processingMutex.mutex(() => (
