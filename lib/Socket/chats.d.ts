@@ -59,9 +59,6 @@ export declare const makeChatsSocket: (config: SocketConfig) => {
     };
     authState: {
         creds: import("../Types").AuthenticationCreds;
-        /**
-         * Adds label for the chats
-         */
         keys: import("../Types").SignalKeyStoreWithTransaction;
     };
     signalRepository: import("../Types").SignalRepository;
@@ -74,6 +71,9 @@ export declare const makeChatsSocket: (config: SocketConfig) => {
     sendNode: (frame: BinaryNode) => Promise<void>;
     logout: (msg?: string | undefined) => Promise<void>;
     end: (error: Error | undefined) => void;
+    /**
+     * Removes label for the chat
+     */
     onUnexpectedError: (err: Error | Boom<any>, msg: string) => void;
     uploadPreKeys: (count?: number) => Promise<void>;
     uploadPreKeysToServerIfRequired: () => Promise<void>;
