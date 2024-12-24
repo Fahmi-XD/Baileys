@@ -821,23 +821,27 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 				const aiNodes: BinaryNode[] = [];
 
-				aiNodes.push({
-					attrs: {
-						biz_bot: '1'
-					},
-					tag: "bot"
-				});
-				aiNodes.push({
-					attrs: {},
-					tag: "biz"
-				});
+				if (!isJidGroup(jid)) {
+					aiNodes.push({
+						attrs: {
+							biz_bot: '1'
+						},
+						tag: "bot"
+					});
+					aiNodes.push({
+						attrs: {},
+						tag: "biz"
+					});
+				}
 
 				const gen = await generateWAMessageFromContent(jid, {
 					...fullMsg.message!,
-					messageContextInfo: {
-						messageSecret: crypto.randomBytes(32),
-						supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
-					}
+					...(!isJidGroup(jid) ? {
+						messageContextInfo: {
+							messageSecret: crypto.randomBytes(32),
+							supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
+						}
+					} : {})
 				}, { userJid: jid });
 
 				await relayMessage(jid, gen.message!, { messageId: fullMsg.key.id!, cachedGroupMetadata: options.cachedGroupMetadata, additionalAttributes, statusJidList: options.statusJidList, additionalNodes: aiNodes })
