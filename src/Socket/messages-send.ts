@@ -826,11 +826,12 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 									: undefined
 							},
 						),
-						upload: async (readStream, opts) => {
-							const up = await waUploadToServer(readStream, { ...opts, newsletter: isJidNewsletter(jid) });
-							mediaHandle = up.handle;
-							return up;
-						},
+						// upload: async (readStream, opts) => {
+						// 	const up = await waUploadToServer(readStream, { ...opts, newsletter: isJidNewsletter(jid) });
+						// 	mediaHandle = up.handle;
+						// 	return up;
+						// },
+						upload: waUploadToServer,
 						mediaCache: config.mediaCache,
 						options: config.options,
 						// messageId: generateMessageIDV2(sock.user?.id),
