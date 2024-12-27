@@ -182,6 +182,7 @@ export type AnyRegularMessageContent = (({
 export type AnyMessageContent = AnyRegularMessageContent | {
     forward: WAMessage;
     force?: boolean;
+    headerType: number;
 } | {
     /** Delete your message or anyone's message in a group (admin required) */
     delete: WAMessageKey;
@@ -243,6 +244,7 @@ export type WAMediaUploadFunction = (readStream: Readable, opts: {
 }) => Promise<{
     mediaUrl: string;
     directPath: string;
+    handle?: string;
 }>;
 export type MediaGenerationOptions = {
     logger?: Logger;

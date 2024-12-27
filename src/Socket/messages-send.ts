@@ -7,7 +7,7 @@ import crypto from "crypto";
 import { AnyMessageContent, MediaConnInfo, MessageReceiptType, MessageRelayOptions, MiscMessageGenerationOptions, SocketConfig, WAMessageKey } from '../Types'
 import { aggregateMessageKeysNotFromMe, assertMediaContent, bindWaitForEvent, decryptMediaRetryData, encodeSignedDeviceIdentity, encodeWAMessage, encryptMediaRetryRequest, extractDeviceJids, generateMessageIDV2, generateWAMessage, generateWAMessageFromContent, getStatusCodeForMediaRetry, getUrlFromDirectPath, getWAUploadToServer, parseAndInjectE2ESessions, unixTimestampSeconds } from '../Utils'
 import { getUrlInfo } from '../Utils/link-preview'
-import { areJidsSameUser, BinaryNode, BinaryNodeAttributes, getBinaryNodeChild, getBinaryNodeChildren, isJidGroup, isJidUser, jidDecode, jidEncode, jidNormalizedUser, JidWithDevice, S_WHATSAPP_NET } from '../WABinary'
+import { areJidsSameUser, BinaryNode, BinaryNodeAttributes, getBinaryNodeChild, getBinaryNodeChildren, isJidGroup, isJidNewsletter, isJidUser, jidDecode, jidEncode, jidNormalizedUser, JidWithDevice, S_WHATSAPP_NET } from '../WABinary'
 import { makeGroupsSocket } from './groups'
 import ListType = proto.WAE2E.Message.ListMessage.ListType;
 
@@ -430,13 +430,11 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 					await authState.keys.set({ 'sender-key-memory': { [jid]: senderKeyMap } })
 				} else if (isNewsletter) {
-					// Message edit
 					if (message?.protocolMessage?.editedMessage) {
 						msgId = message.protocolMessage.key?.id!;
 						message = message.protocolMessage.editedMessage;
 					}
 
-					// Message delete
 					if (
 						message?.protocolMessage?.type ===
 						proto.WAE2E.Message.ProtocolMessage.Type.REVOKE
@@ -508,7 +506,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					tag: 'message',
 					attrs: {
 						id: msgId!,
-						type: 'text',
+						type: isNewsletter ? getTypeMessage(message) : 'text',
 						...(additionalAttributes || {})
 					},
 					content: binaryNodeContent
@@ -566,7 +564,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					if (message &&
 						message.viewOnceMessage &&
 						message.viewOnceMessage.message &&
-						message.viewOnceMessage.message.interactiveMessage || message.buttonsMessage) {
+						message.viewOnceMessage.message.interactiveMessage || message.viewOnceMessage?.message?.buttonsMessage || message.buttonsMessage) {
 						if (!stanza.content || !Array.isArray(stanza.content)) {
 							stanza.content = [];
 						}
@@ -599,6 +597,36 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 		return msgId
 	}
+
+	const getTypeMessage = (msg) => {
+		if (msg.viewOnceMessage) {
+			return getTypeMessage(msg.viewOnceMessage.message);
+		}
+		else if (msg.viewOnceMessageV2) {
+			return getTypeMessage(msg.viewOnceMessageV2.message);
+		}
+		else if (msg.viewOnceMessageV2Extension) {
+			return getTypeMessage(msg.viewOnceMessageV2Extension.message);
+		}
+		else if (msg.ephemeralMessage) {
+			return getTypeMessage(msg.ephemeralMessage.message);
+		}
+		else if (msg.documentWithCaptionMessage) {
+			return getTypeMessage(msg.documentWithCaptionMessage.message);
+		}
+		else if (msg.reactionMessage) {
+			return 'reaction';
+		}
+		else if (msg.pollCreationMessage || msg.pollCreationMessageV2 || msg.pollCreationMessageV3 || msg.pollUpdateMessage) {
+			return 'reaction';
+		}
+		else if (getMediaType(msg)) {
+			return 'media';
+		}
+		else {
+			return 'text';
+		}
+	};
 
 	const getMediaType = (message: proto.WAE2E.IMessage) => {
 		if (message.imageMessage) {
@@ -777,6 +805,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					disappearingMessagesInChat
 				await groupToggleEphemeral(jid, value)
 			} else {
+				let mediaHandle;
 				const fullMsg = await generateWAMessage(
 					jid,
 					content,
@@ -797,10 +826,14 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 									: undefined
 							},
 						),
-						upload: waUploadToServer,
+						upload: async (readStream, opts) => {
+							const up = await waUploadToServer(readStream, { ...opts, newsletter: isJidNewsletter(jid) });
+							mediaHandle = up.handle;
+							return up;
+						},
 						mediaCache: config.mediaCache,
 						options: config.options,
-						messageId: generateMessageIDV2(sock.user?.id),
+						// messageId: generateMessageIDV2(sock.user?.id),
 						...options,
 					}
 				)
@@ -819,21 +852,21 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					additionalAttributes.edit = '1'
 				}
 
-				const generates = await generateWAMessageFromContent(jid, {
-					...fullMsg.message!,
-					...(!isJidGroup(jid) ? {
-						messageContextInfo: {
-							messageSecret: crypto.randomBytes(32),
-							supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
-						}
-					} : {})
-				}, { userJid: jid });
+				// const generates = await generateWAMessageFromContent(jid, {
+				// 	...fullMsg.message!,
+				// 	...(!isJidGroup(jid) ? {
+				// 		messageContextInfo: {
+				// 			messageSecret: crypto.randomBytes(32),
+				// 			supportPayload: "{\"version\": 1, \"is_ai_message\": true, \"should_show_system_message\": true, \"ticket_id\": \"1669945700536053\"}"
+				// 		}
+				// 	} : {})
+				// }, { userJid: jid });
 
-				if (!isJidGroup(jid)) {
+				if (!isJidGroup(jid) && !fullMsg.message?.buttonsMessage && !fullMsg.message?.viewOnceMessage?.message?.buttonsMessage) {
 					if (!options.additionalNodes) {
 						options.additionalNodes = []
 					}
-					
+
 					options.additionalNodes.push({
 						attrs: {
 							biz_bot: '1'
@@ -846,7 +879,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					});
 				}
 
-				await relayMessage(jid, generates.message!, { messageId: fullMsg.key.id!, cachedGroupMetadata: options.cachedGroupMetadata, additionalAttributes, statusJidList: options.statusJidList, additionalNodes: options.additionalNodes })
+				await relayMessage(jid, fullMsg.message!, { messageId: fullMsg.key.id!, cachedGroupMetadata: options.cachedGroupMetadata, additionalAttributes, statusJidList: options.statusJidList, additionalNodes: options.additionalNodes })
 				if (config.emitOwnEvents) {
 					process.nextTick(() => {
 						processingMutex.mutex(() => (
