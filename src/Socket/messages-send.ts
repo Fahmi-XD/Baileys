@@ -566,7 +566,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					if (message &&
 						message.viewOnceMessage &&
 						message.viewOnceMessage.message &&
-						message.viewOnceMessage.message.interactiveMessage) {
+						message.viewOnceMessage.message.interactiveMessage || message.buttonsMessage) {
 						if (!stanza.content || !Array.isArray(stanza.content)) {
 							stanza.content = [];
 						}
