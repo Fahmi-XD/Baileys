@@ -23,6 +23,24 @@ export declare const makeMessagesRecvSocket: (config: SocketConfig) => {
     }>;
     updateMediaMessage: (message: proto.WAWeb.IWebMessageInfo) => Promise<proto.WAWeb.IWebMessageInfo>;
     sendMessage: (jid: string, content: import("../Types").AnyMessageContent, options?: import("../Types").MiscMessageGenerationOptions) => Promise<proto.WAWeb.WebMessageInfo | undefined>;
+    subscribeNewsletterUpdates: (jid: string) => Promise<{
+        duration: string;
+    }>;
+    newsletterReactionMode: (jid: string, mode: import("../Types").NewsletterReactionMode) => Promise<void>;
+    newsletterUpdateDescription: (jid: string, description?: string | undefined) => Promise<void>;
+    newsletterUpdateName: (jid: string, name: string) => Promise<void>;
+    newsletterUpdatePicture: (jid: string, content: import("../Types").WAMediaUpload) => Promise<void>;
+    newsletterRemovePicture: (jid: string) => Promise<void>;
+    newsletterAction: (jid: string, type: "mute" | "follow" | "unfollow" | "unmute") => Promise<void>;
+    newsletterCreate: (name: string, description: string) => Promise<import("../Types").NewsletterMetadata>;
+    newsletterMetadata: (type: "invite" | "jid", key: string, role?: import("../Types").NewsletterViewRole | undefined) => Promise<import("../Types").NewsletterMetadata>;
+    newsletterAdminCount: (jid: string) => Promise<number>;
+    newsletterChangeOwner: (jid: string, user: string) => Promise<void>;
+    newsletterDemote: (jid: string, user: string) => Promise<void>;
+    newsletterDelete: (jid: string) => Promise<void>;
+    newsletterReactMessage: (jid: string, serverId: string, code?: string | undefined) => Promise<void>;
+    newsletterFetchMessages: (type: "invite" | "jid", key: string, count: number, after?: number | undefined) => Promise<import("../Types").NewsletterFetchedUpdate[]>;
+    newsletterFetchUpdates: (jid: string, count: number, after?: number | undefined, since?: number | undefined) => Promise<import("../Types").NewsletterFetchedUpdate[]>;
     groupMetadata: (jid: string) => Promise<import("../Types").GroupMetadata>;
     groupCreate: (subject: string, participants: string[]) => Promise<import("../Types").GroupMetadata>;
     groupLeave: (id: string) => Promise<void>;

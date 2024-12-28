@@ -8,7 +8,7 @@ import { AnyMessageContent, MediaConnInfo, MessageReceiptType, MessageRelayOptio
 import { aggregateMessageKeysNotFromMe, assertMediaContent, bindWaitForEvent, decryptMediaRetryData, encodeSignedDeviceIdentity, encodeWAMessage, encryptMediaRetryRequest, extractDeviceJids, generateMessageIDV2, generateWAMessage, generateWAMessageFromContent, getStatusCodeForMediaRetry, getUrlFromDirectPath, getWAUploadToServer, parseAndInjectE2ESessions, unixTimestampSeconds } from '../Utils'
 import { getUrlInfo } from '../Utils/link-preview'
 import { areJidsSameUser, BinaryNode, BinaryNodeAttributes, getBinaryNodeChild, getBinaryNodeChildren, isJidGroup, isJidNewsletter, isJidUser, jidDecode, jidEncode, jidNormalizedUser, JidWithDevice, S_WHATSAPP_NET } from '../WABinary'
-import { makeGroupsSocket } from './groups'
+import { makeNewsletterSocket } from './newsletter'
 import ListType = proto.WAE2E.Message.ListMessage.ListType;
 
 export const makeMessagesSocket = (config: SocketConfig) => {
@@ -19,7 +19,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 		options: axiosOptions,
 		patchMessageBeforeSending,
 	} = config
-	const sock = makeGroupsSocket(config)
+	const sock = makeNewsletterSocket(config)
 	const {
 		ev,
 		authState,
@@ -863,7 +863,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				// 	} : {})
 				// }, { userJid: jid });
 
-				if (!isJidGroup(jid) && !fullMsg.message?.buttonsMessage && !fullMsg.message?.viewOnceMessage?.message?.buttonsMessage) {
+				if (!isJidGroup(jid) && !fullMsg.message?.buttonsMessage && !fullMsg.message?.viewOnceMessage?.message?.buttonsMessage && !isJidNewsletter(jid)) {
 					if (!options.additionalNodes) {
 						options.additionalNodes = []
 					}
