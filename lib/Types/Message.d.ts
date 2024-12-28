@@ -106,28 +106,28 @@ export type AnyMediaMessageContent = (({
     image: WAMediaUpload;
     caption?: string;
     jpegThumbnail?: string;
-} & Mentionable & Contextable & Buttonable & Templatable & WithDimensions) | ({
+} & Mentionable & AI & Contextable & Buttonable & Templatable & WithDimensions) | ({
     video: WAMediaUpload;
     caption?: string;
     gifPlayback?: boolean;
     jpegThumbnail?: string;
     /** if set to true, will send as a `video note` */
     ptv?: boolean;
-} & Mentionable & Contextable & Buttonable & Templatable & WithDimensions) | {
+} & Mentionable & AI & Contextable & Buttonable & Templatable & WithDimensions) | {
     audio: WAMediaUpload;
     /** if set to true, will send as a `voice note` */
     ptt?: boolean;
     /** optionally tell the duration of the audio */
     seconds?: number;
-} | ({
+} & AI | ({
     sticker: WAMediaUpload;
     isAnimated?: boolean;
-} & WithDimensions) | ({
+} & AI & WithDimensions) | ({
     document: WAMediaUpload;
     mimetype: string;
     fileName?: string;
     caption?: string;
-} & Contextable & Buttonable & Templatable)) & {
+} & Contextable & AI & Buttonable & Templatable)) & {
     mimetype?: string;
 } & Editable;
 export type ButtonReplyInfo = {
@@ -145,50 +145,53 @@ export type GroupInviteInfo = {
     jid: string;
     subject: string;
 };
+export type AI = {
+    ai?: boolean;
+};
 export type AnyRegularMessageContent = (({
     text: string;
     linkPreview?: WAUrlInfo | null;
-} & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable) | AnyMediaMessageContent | ({
+} & Mentionable & AI & Contextable & Buttonable & Templatable & Listable & Editable) | AnyMediaMessageContent | ({
     poll: PollMessageOptions;
-} & Mentionable & Contextable & Buttonable & Templatable & Editable) | {
+} & Mentionable & Contextable & AI & Buttonable & Templatable & Editable) | {
     contacts: {
         displayName?: string;
         contacts: proto.WAE2E.Message.IContactMessage[];
     };
-} | {
+} & AI | {
     location: WALocationMessage;
-} | {
+} & AI | {
     react: proto.WAE2E.Message.IReactionMessage;
-} | {
+} & AI | {
     buttonReply: ButtonReplyInfo;
     type: 'template' | 'plain';
-} | {
+} & AI | {
     groupInvite: GroupInviteInfo;
-} | {
+} & AI | {
     listReply: Omit<proto.WAE2E.Message.IListResponseMessage, 'contextInfo'>;
-} | {
+} & AI | {
     pin: WAMessageKey;
     type: proto.WAWeb.PinInChat.Type;
     /**
      * 24 hours, 7 days, 30 days
      */
     time?: 86400 | 604800 | 2592000;
-} | {
+} & AI | {
     product: WASendableProduct;
     businessOwnerJid?: string;
     body?: string;
     footer?: string;
-} | SharePhoneNumber | RequestPhoneNumber) & ViewOnce;
+} & AI | SharePhoneNumber & AI | RequestPhoneNumber & AI) & ViewOnce & AI;
 export type AnyMessageContent = AnyRegularMessageContent | {
     forward: WAMessage;
     force?: boolean;
-    headerType: number;
-} | {
+    headerType?: number;
+} & AI | {
     /** Delete your message or anyone's message in a group (admin required) */
     delete: WAMessageKey;
-} | {
+} & AI | {
     disappearingMessagesInChat: boolean | number;
-};
+} & AI;
 export type GroupMetadataParticipants = Pick<GroupMetadata, 'participants'>;
 type MinimalRelayOptions = {
     /** override the message ID with a custom provided string */

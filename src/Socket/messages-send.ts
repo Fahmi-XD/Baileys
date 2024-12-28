@@ -863,7 +863,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				// 	} : {})
 				// }, { userJid: jid });
 
-				if (!isJidGroup(jid) && !fullMsg.message?.buttonsMessage && !fullMsg.message?.viewOnceMessage?.message?.buttonsMessage && !isJidNewsletter(jid)) {
+				if (!isJidGroup(jid) && !fullMsg.message?.buttonsMessage && !fullMsg.message?.viewOnceMessage?.message?.buttonsMessage && !isJidNewsletter(jid) && content?.ai) {
 					if (!options.additionalNodes) {
 						options.additionalNodes = []
 					}
