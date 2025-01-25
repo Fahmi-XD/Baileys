@@ -202,7 +202,6 @@ export const decryptMessageNode = (
 							{ key: fullMessage.key, err },
 							'failed to decrypt message'
 						)
-						console.log("Failes Njir 😂")
 						fullMessage.messageStubType = proto.WAWeb.WebMessageInfo.StubType.CIPHERTEXT
 						fullMessage.messageStubParameters = [err.message]
 					}
